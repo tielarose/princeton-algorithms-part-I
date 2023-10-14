@@ -9,7 +9,7 @@ import edu.princeton.cs.algs4.StdRandom;
    */
 
 public class RandomWord {
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         String championWord = "";
         double i = 1.0;
 

@@ -15,7 +15,7 @@ public class QuickFindUF {
     // initialize the empty id array of size N
     // set the id of each element to itself
     public QuickFindUF(int N) {
-        id = new int[N]
+        id = new int[N];
         for (int i = 0; i < N; i++){
             id[i] = i;
         }
@@ -23,7 +23,7 @@ public class QuickFindUF {
 
     // p and q are connected if they have the same value in the id array
     public boolean connected(int p, int q) {
-        return id[p] == id[q]
+        return id[p] == id[q];
     }
     
     public void union(int p, int q) {

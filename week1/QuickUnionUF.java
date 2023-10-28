@@ -27,7 +27,7 @@ public class QuickUnionUF {
         while (i != id[i]) {
             i = id[i];
         }
-        return i
+        return i;
     }
 
     // p and q are connected if they have the same root
@@ -44,5 +44,3 @@ public class QuickUnionUF {
         id[i] = j;
         }
     }
-    
-}

@@ -23,10 +23,8 @@ public class Percolation {
     }
 
     // throw an error if the specified row or column is out of range
-    private void isInRange(int row, int col) {
-        if (row < 0 || row > size - 1 || col < 0 || col > size - 1) {
-            throw new IllegalArgumentException();
-        }
+    private boolean isInRange(int row, int col) {
+        return !(row < 0 || row > size - 1 || col < 0 || col > size - 1);
     }
 
     // take a row and col number and return the node number
@@ -36,9 +34,43 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        isInRange(row, col);
+        if (!isInRange(row, col)){
+            throw new IllegalArgumentException();
+        }
         grid[row - 1][col - 1] = true;
         ++openSites;
+
+        int node = findNodeNum(row, col);
+        int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
+
+        // if the node is in the top row, connect it to virutalTop
+        if (row == 1) {
+            qf.union(node, virtualTop);
+        }
+
+        // if the node is in the bottom row, connect it to virtualBottom
+        if (row == size) {
+            qf.union(node, virtualBottom);
+        }
+
+        // loop through the nodes above, below, left and right of the node
+        // connect them if those nodes are open (and in range)
+        for (int[] direction : directions) {
+            int newCol = direction[0] + col;
+            int newRow = direction[1] + row;
+
+            if (!isInRange(newRow, newCol) || !isOpen(newRow, newCol)){
+                continue;
+            }
+
+            int neighborNode = findNodeNum(newRow, newCol);
+            
+            qf.union(node, neighborNode);
+        }
+            
+
+
+
     }
 
     // is the site (row, col) open?

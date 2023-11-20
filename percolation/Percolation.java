@@ -1,3 +1,5 @@
+import java.util.Arrays;
+
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
@@ -67,10 +69,6 @@ public class Percolation {
             
             qf.union(node, neighborNode);
         }
-            
-
-
-
     }
 
     // is the site (row, col) open?
@@ -94,5 +92,12 @@ public class Percolation {
     }
 
     // test client (optional)
-    public static void main(String[] args){}
+    public static void main(String[] args) {
+        System.out.println("*****************");
+        Percolation sampleObj = new Percolation(5);
+        for (boolean[] arr : sampleObj.grid) {
+            System.out.println(Arrays.toString(arr));
+        }
+        System.out.println("~~~~~~~~~~~~~~~~~");
+    }
 }

@@ -74,22 +74,27 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        return grid[row][col];
+        return grid[row - 1][col - 1];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        return true;
+        return !isOpen(row, col);
+    }
+
+    // are two nodes connected?
+    public boolean isConnected(int node1, int node2) {
+        return qf.find(node1) == qf.find(node2);
     }
 
     // returns the number of open sites
     public int numberOfOpenSites() {
-        return 0;
+        return openSites;
     }
 
     // does the system percolate?
     public boolean percolates() {
-        return true;
+        return qf.find(virtualTop) == qf.find(virtualBottom);
     }
 
     // test client (optional)
@@ -110,6 +115,17 @@ public class Percolation {
         // System.out.println(sampleObj.findNodeNum(1, 1) == 1);
         // System.out.println(sampleObj.findNodeNum(2, 3) == 6);
         // System.out.println(sampleObj.findNodeNum(3, 3) == 9);
+        // **************
+        // test open()
+        sampleObj.open(1, 1);
+        sampleObj.open(2, 2);
+        sampleObj.open(1, 2);
+        for (boolean[] arr : sampleObj.grid) {
+            System.out.println(Arrays.toString(arr));
+        }
+        System.out.println(sampleObj.percolates());
+        sampleObj.open(3, 2);
+        System.out.println(sampleObj.percolates());
         System.out.println("~~~~~~~~~~~~~~~~~");
     }
 }

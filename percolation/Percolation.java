@@ -25,8 +25,9 @@ public class Percolation {
     }
 
     // throw an error if the specified row or column is out of range
+    // per specification, rows and columns range from 1 to n
     private boolean isInRange(int row, int col) {
-        return !(row < 0 || row > size - 1 || col < 0 || col > size - 1);
+        return !(row <= 0 || row > size || col <= 0 || col > size);
     }
 
     // take a row and col number and return the node number
@@ -94,10 +95,21 @@ public class Percolation {
     // test client (optional)
     public static void main(String[] args) {
         System.out.println("*****************");
-        Percolation sampleObj = new Percolation(5);
-        for (boolean[] arr : sampleObj.grid) {
-            System.out.println(Arrays.toString(arr));
-        }
+        Percolation sampleObj = new Percolation(3);
+        // **************
+        // print the initial grid
+        // for (boolean[] arr : sampleObj.grid) {
+        //     System.out.println(Arrays.toString(arr));
+        // }
+        // **************
+        // check isInRange(row, col)
+        // System.out.println(sampleObj.isInRange(1, 2));
+        // System.out.println(sampleObj.isInRange(6, 4));       
+        // **************
+        // check findNodeNum(row, col)
+        // System.out.println(sampleObj.findNodeNum(1, 1) == 1);
+        // System.out.println(sampleObj.findNodeNum(2, 3) == 6);
+        // System.out.println(sampleObj.findNodeNum(3, 3) == 9);
         System.out.println("~~~~~~~~~~~~~~~~~");
     }
 }

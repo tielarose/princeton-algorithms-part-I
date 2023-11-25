@@ -74,12 +74,19 @@ public class Percolation {
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
+        if (!isInRange(row, col)){
+            throw new IllegalArgumentException();
+        }
         return grid[row - 1][col - 1];
     }
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        return !isOpen(row, col);
+        if (!isInRange(row, col)){
+            throw new IllegalArgumentException();
+        }
+        int node = findNodeNum(row, col);
+        return qf.find(virtualTop) == qf.find(node);
     }
 
     // are two nodes connected?
@@ -99,8 +106,8 @@ public class Percolation {
 
     // test client (optional)
     public static void main(String[] args) {
-        System.out.println("*****************");
-        Percolation sampleObj = new Percolation(3);
+        // System.out.println("*****************");
+        // Percolation sampleObj = new Percolation(3);
         // **************
         // print the initial grid
         // for (boolean[] arr : sampleObj.grid) {
@@ -117,15 +124,19 @@ public class Percolation {
         // System.out.println(sampleObj.findNodeNum(3, 3) == 9);
         // **************
         // test open()
-        sampleObj.open(1, 1);
-        sampleObj.open(2, 2);
-        sampleObj.open(1, 2);
-        for (boolean[] arr : sampleObj.grid) {
-            System.out.println(Arrays.toString(arr));
-        }
-        System.out.println(sampleObj.percolates());
-        sampleObj.open(3, 2);
-        System.out.println(sampleObj.percolates());
-        System.out.println("~~~~~~~~~~~~~~~~~");
+        // sampleObj.open(1, 1);
+        // sampleObj.open(2, 2);
+        // sampleObj.open(1, 2);
+        // sampleObj.open(3, 3);
+        // for (boolean[] arr : sampleObj.grid) {
+        //     System.out.println(Arrays.toString(arr));
+        // }
+        // System.out.println(sampleObj.isFull(2, 2));
+        // System.out.println(sampleObj.isFull(3, 3));
+        // **************
+        // test percolates()
+        // sampleObj.open(3, 2);
+        // System.out.println(sampleObj.percolates());
+        // System.out.println("~~~~~~~~~~~~~~~~~");
     }
 }

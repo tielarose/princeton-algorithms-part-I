@@ -4,7 +4,7 @@ import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
     private boolean[][] grid;
-    private final int virtualTop = 0;
+    private static final int virtualTop = 0;
     private final int virtualBottom;
     private final int size;
     private final WeightedQuickUnionUF qf;
@@ -87,11 +87,6 @@ public class Percolation {
         }
         int node = findNodeNum(row, col);
         return qf.find(virtualTop) == qf.find(node);
-    }
-
-    // are two nodes connected?
-    public boolean isConnected(int node1, int node2) {
-        return qf.find(node1) == qf.find(node2);
     }
 
     // returns the number of open sites

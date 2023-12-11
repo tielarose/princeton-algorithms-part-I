@@ -1,7 +1,5 @@
-import java.util.Arrays;
+// import java.util.Arrays;
 
-import edu.princeton.cs.algs4.StdRandom;
-import edu.princeton.cs.algs4.StdStats;
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
@@ -37,9 +35,11 @@ public class Percolation {
 
     // opens the site (row, col) if it is not open already
     public void open(int row, int col) {
-        if (!isInRange(row, col)){
+        if (!isInRange(row, col)) {
             throw new IllegalArgumentException();
         }
+        if (grid[row - 1][col - 1]) return;
+
         grid[row - 1][col - 1] = true;
         ++openSites;
 
@@ -62,19 +62,19 @@ public class Percolation {
             int newCol = direction[0] + col;
             int newRow = direction[1] + row;
 
-            if (!isInRange(newRow, newCol) || !isOpen(newRow, newCol)){
+            if (!isInRange(newRow, newCol) || !isOpen(newRow, newCol)) {
                 continue;
             }
 
             int neighborNode = findNodeNum(newRow, newCol);
-            
+
             qf.union(node, neighborNode);
         }
     }
 
     // is the site (row, col) open?
     public boolean isOpen(int row, int col) {
-        if (!isInRange(row, col)){
+        if (!isInRange(row, col)) {
             throw new IllegalArgumentException();
         }
         return grid[row - 1][col - 1];
@@ -82,7 +82,7 @@ public class Percolation {
 
     // is the site (row, col) full?
     public boolean isFull(int row, int col) {
-        if (!isInRange(row, col)){
+        if (!isInRange(row, col)) {
             throw new IllegalArgumentException();
         }
         int node = findNodeNum(row, col);
@@ -116,7 +116,7 @@ public class Percolation {
         // **************
         // check isInRange(row, col)
         // System.out.println(sampleObj.isInRange(1, 2));
-        // System.out.println(sampleObj.isInRange(6, 4));       
+        // System.out.println(sampleObj.isInRange(6, 4));
         // **************
         // check findNodeNum(row, col)
         // System.out.println(sampleObj.findNodeNum(1, 1) == 1);
@@ -125,6 +125,9 @@ public class Percolation {
         // **************
         // test open()
         // sampleObj.open(1, 1);
+        // System.out.println("Number of open sites is: " + (sampleObj.openSites));
+        // sampleObj.open(1, 1);
+        // System.out.println("Number of open sites is now: " + (sampleObj.openSites));
         // sampleObj.open(2, 2);
         // sampleObj.open(1, 2);
         // sampleObj.open(3, 3);

@@ -3,11 +3,12 @@
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 public class Percolation {
+    private static final int VIRTUAL_TOP = 0;
     private boolean[][] grid;
-    private static final int virtualTop = 0;
     private final int virtualBottom;
     private final int size;
     private final WeightedQuickUnionUF qf;
+    private final WeightedQuickUnionUF qf2;
     private int openSites;
 
     // creates n-by-n grid, with all sites initially blocked
@@ -18,6 +19,7 @@ public class Percolation {
         size = n;
         virtualBottom = n * n + 1;
         qf = new WeightedQuickUnionUF(virtualBottom + 1);
+        qf2 = new WeightedQuickUnionUF(virtualBottom);
         grid = new boolean[n][n];
         openSites = 0;
     }
@@ -46,9 +48,10 @@ public class Percolation {
         int node = findNodeNum(row, col);
         int[][] directions = { { -1, 0 }, { 1, 0 }, { 0, -1 }, { 0, 1 } };
 
-        // if the node is in the top row, connect it to virutalTop
+        // if the node is in the top row, connect it to VIRTUAL_TOP
         if (row == 1) {
-            qf.union(node, virtualTop);
+            qf.union(node, VIRTUAL_TOP);
+            qf2.union(node, VIRTUAL_TOP);
         }
 
         // if the node is in the bottom row, connect it to virtualBottom
@@ -69,6 +72,7 @@ public class Percolation {
             int neighborNode = findNodeNum(newRow, newCol);
 
             qf.union(node, neighborNode);
+            qf2.union(node, neighborNode);
         }
     }
 
@@ -86,7 +90,7 @@ public class Percolation {
             throw new IllegalArgumentException();
         }
         int node = findNodeNum(row, col);
-        return qf.find(virtualTop) == qf.find(node);
+        return qf.find(VIRTUAL_TOP) == qf.find(node) && qf2.find(VIRTUAL_TOP) == qf2.find(node);
     }
 
     // returns the number of open sites
@@ -96,7 +100,7 @@ public class Percolation {
 
     // does the system percolate?
     public boolean percolates() {
-        return qf.find(virtualTop) == qf.find(virtualBottom);
+        return qf.find(VIRTUAL_TOP) == qf.find(virtualBottom);
     }
 
     // test client (optional)

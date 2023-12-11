@@ -2,8 +2,8 @@ import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
-    private final double[] thresholds;
     private static final double CONFIDENCE_95 = 1.96;
+    private final double[] thresholds;
     private int totalTrials;
 
     // perform independent trials on an n-by-n grid
@@ -53,7 +53,7 @@ public class PercolationStats {
         System.out.println(String.format("mean                     = %s", sampleObj.mean()));
         System.out.println(String.format("stddev                   = %s", sampleObj.stddev()));
         System.out.println(
-                String.format("95%% confidence internval = [%s, %s]", sampleObj.confidenceLo(),
+                String.format("95%% confidence interval = [%s, %s]", sampleObj.confidenceLo(),
                               sampleObj.confidenceHi()));
     }
 

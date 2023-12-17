@@ -1,6 +1,6 @@
 package week2;
 
-public class GenericStack<Item>
+public class GenericStackLinkedList<Item>
 {
     private Node first = null;
 

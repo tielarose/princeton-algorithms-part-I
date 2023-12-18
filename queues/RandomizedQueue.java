@@ -1,24 +1,20 @@
-package queues;
-
 import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Iterator;
 
-import org.w3c.dom.Node;
-
 public class RandomizedQueue<Item> implements Iterable<Item> {
     private Item[] queue;
-    private int N;
+    private int n;
 
     // construct an empty randomized queue
     public RandomizedQueue() {
-        N = 0;
+        n = 0;
         queue = (Item[]) new Object[1];
 
     }
 
     private class RandomizedQueueIterator implements Iterator<Item> {
-        private int i = N;
+        private int i = n;
         private int[] order;
 
         public RandomizedQueueIterator() {
@@ -45,17 +41,17 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     // is the randomized queue empty?
     public boolean isEmpty() {
-        return N == 0;
+        return n == 0;
     }
 
     // return the number of items on the randomized queue
     public int size() {
-        return N;
+        return n;
     }
 
     private void resize(int capacity) {
         Item[] copy = (Item[]) new Object[capacity];
-        for (int i = 0; i < N; i++) {
+        for (int i = 0; i < n; i++) {
             copy[i] = queue[i];
         }
         queue = copy;
@@ -65,22 +61,22 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // add the item
     public void enqueue(Item item) {
         if (item == null) throw new IllegalArgumentException();
-        if (N == queue.length) {
+        if (n == queue.length) {
             resize(2 * queue.length);
         }
-        queue[N] = item;
-        N++;
+        queue[n] = item;
+        n++;
     }
 
     // remove and return a random item
     public Item dequeue() {
         if (isEmpty())
             throw new java.util.NoSuchElementException();
-        int randInd = StdRandom.uniformInt(N);
+        int randInd = StdRandom.uniformInt(n);
         Item item = queue[randInd];
-        queue[randInd] = queue[N - 1];
-        queue[N - 1] = null;
-        N--;
+        queue[randInd] = queue[n - 1];
+        queue[n - 1] = null;
+        n--;
         return item;
 
     }
@@ -88,7 +84,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // return a random item (but do not remove it)
     public Item sample() {
         if (isEmpty()) throw new java.util.NoSuchElementException();
-        int randInd = StdRandom.uniformInt(N);
+        int randInd = StdRandom.uniformInt(n);
         return queue[randInd];
     }
 
@@ -100,7 +96,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     // unit testing (required)
     public static void main(String[] args) {
         RandomizedQueue<Integer> randQ = new RandomizedQueue<Integer>();
-        System.out.println(String.format("isEmpty -> true. isEmpty() = %s", randQ.isEmpty())) ;
+        System.out.println(String.format("isEmpty -> true. isEmpty() = %s", randQ.isEmpty()));
         System.out.println(String.format("size --> 0. size = %s", randQ.size()));
         System.out.println("Adding 4 items: 0, 1, 2, 3");
         randQ.enqueue(0);

@@ -1,5 +1,3 @@
-package queues;
-
 import java.util.Iterator;
 
 public class Deque<Item> implements Iterable<Item> {
@@ -20,7 +18,7 @@ public class Deque<Item> implements Iterable<Item> {
         size = 0;
     }
 
-    private class DequeIterator implements Iterator<Item>{
+    private class DequeIterator implements Iterator<Item> {
         private Node current = first;
 
         public boolean hasNext() {
@@ -45,12 +43,12 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // return the number of items on the deque
-    public int size(){
+    public int size() {
         return size;
     }
 
     // add the item to the front
-    public void addFirst(Item item){
+    public void addFirst(Item item) {
         if (item == null) throw new IllegalArgumentException();
         Node oldfirst = first;
         first = new Node();
@@ -63,7 +61,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // add the item to the back
-    public void addLast(Item item){
+    public void addLast(Item item) {
         if (item == null) throw new IllegalArgumentException();
         Node oldlast = last;
         last = new Node();
@@ -87,7 +85,7 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // remove and return the item from the back
-    public Item removeLast(){
+    public Item removeLast() {
         if (isEmpty()) throw new java.util.NoSuchElementException();
         Item item = last.item;
         last = last.prev;
@@ -98,14 +96,14 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     // return an iterator over items in order from front to back
-    public Iterator<Item> iterator(){
+    public Iterator<Item> iterator() {
         return new DequeIterator();
     }
 
     // unit testing (required)
     public static void main(String[] args) {
         Deque<Integer> deque = new Deque<Integer>();
-        System.out.println(String.format("isEmpty -> true. isEmpty() = %s", deque.isEmpty())) ;
+        System.out.println(String.format("isEmpty -> true. isEmpty() = %s", deque.isEmpty()));
         System.out.println(String.format("size --> 0. size = %s", deque.size()));
         System.out.println("Adding 4 items: 0, 1, 2, 3");
         deque.addFirst(1);

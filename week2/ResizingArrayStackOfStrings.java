@@ -1,5 +1,3 @@
-package week2;
-
 public class ResizingArrayStackOfStrings
 {
     private String[] s;

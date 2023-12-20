@@ -1,5 +1,3 @@
-package week2;
-
 public class GenericStackArray<Item> 
 {
     private Item[] s;

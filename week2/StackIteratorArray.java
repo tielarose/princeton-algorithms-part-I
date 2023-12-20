@@ -1,5 +1,3 @@
-package week2;
-
 import java.util.Iterator;
 
 public class StackIteratorArray<Item> 

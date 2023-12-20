@@ -1,5 +1,3 @@
-package week2;
-
 public class GenericStackLinkedList<Item>
 {
     private Node first = null;

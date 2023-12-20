@@ -1,5 +1,3 @@
-package week2;
-
 public class LinkedStackOfStrings
 {
     private Node first = null;

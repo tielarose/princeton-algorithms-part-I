@@ -1,4 +1,6 @@
 public class MergeSort {
+    int CUTOFF = 7;
+
     private static void merge(Comparable[] a, Comparable[] aux, int lo, int mid, int hi) {
         assert isSorted(a, lo, mid);
         assert isSorted(a, mid + 1, hi);
@@ -25,11 +27,14 @@ public class MergeSort {
     
     private static void sort(Comparable[] a, Comparable[] aux, int lo, int hi)
     {
-        if (hi <= lo)
+        if (hi <= lo + CUTOFF  - 1){
+            Insertion.sort(a, lo, hi);
             return;
+        }
         int mid = lo + (hi - lo) / 2
         sort(a, aux, lo, mid);
         sort(a, aux, mid+1, hi);
+        if (!less(a[mid+1], a[mid])) return;
         merge(a, aux, lo, mid, hi);
     }
 

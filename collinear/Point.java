@@ -75,7 +75,11 @@ public class Point implements Comparable<Point> {
      *         argument point
      */
     public int compareTo(Point that) {
-        /* YOUR CODE HERE */
+        if (this.y < that.y) return -1;
+        else if (this.y > that.y) return 1;
+        else if (this.x < that.x) return -1;
+        else if (this.x > that.x) return 1;
+        else return 0;
     }
 
     /**
@@ -105,6 +109,9 @@ public class Point implements Comparable<Point> {
      * Unit tests the Point data type.
      */
     public static void main(String[] args) {
-        /* YOUR CODE HERE */
+        System.out.println("*************************");
+        Point samplePoint = new Point(2, 0);
+        Point otherPoint = new Point(2, 0);
+        System.out.println(samplePoint.compareTo(otherPoint));
     }
 }

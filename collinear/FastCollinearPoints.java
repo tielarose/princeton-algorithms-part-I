@@ -1,3 +1,7 @@
+import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.StdDraw;
+import edu.princeton.cs.algs4.StdOut;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -32,7 +36,7 @@ public class FastCollinearPoints {
         // loop through the original sorted array, and re-sort the new copy based on
         // each point's slope with the "origin" point
         for (Point origin : pointsCopy) {
-            Arrays.sort(pointsCopy2, point.slopeOrder());
+            Arrays.sort(pointsCopy2, origin.slopeOrder());
             // check for collinear points
             int left = 1;
             int right = 1;

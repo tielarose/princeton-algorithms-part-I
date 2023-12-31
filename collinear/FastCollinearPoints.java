@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class FastCollinearPoints {
@@ -22,6 +23,39 @@ public class FastCollinearPoints {
             if (pointsCopy[i].compareTo(pointsCopy[i - 1]) == 0)
                 throw new IllegalArgumentException("Input contains duplicate points.");
         }
+
+        // sort the points according to the slope they make with p (origin point)
+        ArrayList<LineSegment> segmentsList = new ArrayList<LineSegment>();
+
+        // make another copy of the points array
+        Point[] pointsCopy2 = pointsCopy.clone();
+        // loop through the original sorted array, and re-sort the new copy based on
+        // each point's slope with the "origin" point
+        for (Point origin : pointsCopy) {
+            Arrays.sort(pointsCopy2, point.slopeOrder());
+            // check for collinear points
+            int left = 1;
+            int right = 1;
+            while (right < pointsCopy2.length) { // need ending condition here
+                while (pointsCopy2[0].slopeTo(pointsCopy[left]) != pointsCopy2[0].slopeTo(
+                        pointsCopy[left + 1]))
+                    left++;
+                right = left;
+                while (pointsCopy2[0].slopeTo(pointsCopy2[right]) == pointsCopy2[0].slopeTo(
+                        pointsCopy2[right + 1]))
+                    right++;
+                if (right - left >= 2) {
+                    segmentsList.add(new LineSegment(origin, pointsCopy2[right]));
+                }
+                left = right + 1;
+                right++;
+            }
+            // I think this will create duplicate segments
+            // I'm also not certain that the last point in this order is the farthest (ie captures
+            // the whole line segment
+
+        }
+        segments = segmentsList.toArray(new LineSegment[segmentsList.size()]);
     }
 
     public int numberOfSegments() {
@@ -31,5 +65,6 @@ public class FastCollinearPoints {
 
     public LineSegment[] segments() {
         return segments;
-    }          // the line segments
+    }
+
 }

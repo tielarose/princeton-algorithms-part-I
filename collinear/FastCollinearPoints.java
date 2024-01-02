@@ -40,14 +40,18 @@ public class FastCollinearPoints {
             // check for collinear points
             int left = 1;
             int right = 1;
-            while (right < pointsCopy2.length) { // need ending condition here
+            while (right < pointsCopy2.length - 1) { // need ending condition here
                 while (pointsCopy2[0].slopeTo(pointsCopy[left]) != pointsCopy2[0].slopeTo(
                         pointsCopy[left + 1]))
-                    left++;
+                    if (left < pointsCopy2.length - 2)
+                        left++;
+                    else break;
                 right = left;
                 while (pointsCopy2[0].slopeTo(pointsCopy2[right]) == pointsCopy2[0].slopeTo(
                         pointsCopy2[right + 1]))
-                    right++;
+                    if (right < pointsCopy2.length - 2)
+                        right++;
+                    else break;
                 if (right - left >= 2) {
                     segmentsList.add(new LineSegment(origin, pointsCopy2[right]));
                 }
@@ -68,7 +72,7 @@ public class FastCollinearPoints {
     }
 
     public LineSegment[] segments() {
-        return segments;
+        return segments.clone();
     }
 
     public static void main(String[] args) {

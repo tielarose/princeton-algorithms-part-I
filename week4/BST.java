@@ -86,6 +86,23 @@ public class BST<Key extends Comparable<Key>, Value>
         return x.count;
     }
 
+    public int rank(Key key) {
+        return rank(key, root);
+    }
+
+    private int rank(Key key, Node x)
+    {
+        if (x == null)
+            return 0;
+        int cmp = key.compareTo(x.key);
+        if (cmp < 0)
+            return rank(key, x.left);
+        else if (cmp > 0)
+            return 1 + size.left + rank(key, x.right);
+        else
+            return size(x.left);
+    }
+
     // public void delete(Key key)
     // {
 

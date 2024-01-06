@@ -1,7 +1,6 @@
 import edu.princeton.cs.algs4.Queue;
 
-public class BST<Key extends Comparable<Key>, Value>
-{
+public class BST<Key extends Comparable<Key>, Value> {
     private Node root;
 
     private class Node {
@@ -15,9 +14,8 @@ public class BST<Key extends Comparable<Key>, Value>
             this.val = val;
         }
     }
-    
-    public void put(Key key, Value val)
-    {
+
+    public void put(Key key, Value val) {
         root = put(root, key, val);
     }
 
@@ -36,11 +34,9 @@ public class BST<Key extends Comparable<Key>, Value>
         return x
     }
 
-    public Value get(Key key)
-    {
+    public Value get(Key key) {
         Node x = root;
-        while (x != null)
-        {
+        while (x != null) {
             int cmp = key.compareTo(x.key);
             if (cmp < 0)
                 x = x.left;
@@ -52,16 +48,14 @@ public class BST<Key extends Comparable<Key>, Value>
         return null;
     }
 
-    public Key floor(Key key)
-    {
+    public Key floor(Key key) {
         Node x = floor(root, key);
         if (x == null)
             return null;
         return x.key;
     }
 
-    private Node floor(Node x, Key key)
-    {
+    private Node floor(Node x, Key key) {
         if (x == null)
             return null;
         int cmp = key.compareTo(x.key);
@@ -76,13 +70,11 @@ public class BST<Key extends Comparable<Key>, Value>
             return x;
     }
 
-    public int size()
-    {
+    public int size() {
         return size(root);
     }
 
-    private int size(Node x)
-    {
+    private int size(Node x) {
         if (x == null)
             return 0;
         return x.count;
@@ -92,8 +84,7 @@ public class BST<Key extends Comparable<Key>, Value>
         return rank(key, root);
     }
 
-    private int rank(Key key, Node x)
-    {
+    private int rank(Key key, Node x) {
         if (x == null)
             return 0;
         int cmp = key.compareTo(x.key);
@@ -110,15 +101,26 @@ public class BST<Key extends Comparable<Key>, Value>
 
     // }
 
-    public Iterable<Key> keys()
+    public void deleteMin() {
+        root = deleteMin(root);
+    }
+
+    private Node deleteMin(Node x)
     {
+        if (x.left == null)
+            return x.right;
+        x.left = deleteMin(x.left);
+        x.count = 1 + size(x.left) + size(x.right);
+        return x;
+    }
+
+    public Iterable<Key> keys() {
         Queue<Key> q = new Queue<Key>();
         inorder(root, q);
         return q;
     }
 
-    private void inorder(Node x, Queue<Key> q)
-    {
+    private void inorder(Node x, Queue<Key> q) {
         if (x == null)
             return;
         inorder(x.left, q);

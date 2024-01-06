@@ -6,6 +6,7 @@ public class BST<Key extends Comparable<Key>, Value>
         private Key key;
         private Value val;
         private Node left, right;
+        private int count;
 
         public Node(Key key, Value val) {
             this.key = key;
@@ -29,6 +30,7 @@ public class BST<Key extends Comparable<Key>, Value>
             x.right = put(x.right, key, val);
         else
             x.val = val;
+        x.count = 1 + size(x.left) + size(x.right);
         return x
     }
 
@@ -70,6 +72,18 @@ public class BST<Key extends Comparable<Key>, Value>
             return t;
         else
             return x;
+    }
+
+    public int size()
+    {
+        return size(root);
+    }
+
+    private int size(Node x)
+    {
+        if (x == null)
+            return 0;
+        return x.count;
     }
 
     // public void delete(Key key)

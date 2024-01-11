@@ -31,9 +31,19 @@ public class Board {
     }
 
     // string representation of this board
-    // public String toString() {
-        
-    // }
+    public String toString() {
+        StringBuilder s = new StringBuilder();
+        s.append(n + "\n");
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++)
+                if (j < n - 1)
+                    s.append(currBoard[i][j] + " ");
+                else if (i < n - 1)
+                    s.append(currBoard[i][j] + "\n");
+                else s.append(currBoard[i][j]);
+        }
+        return s.toString();
+    }
 
     // board dimension n
     public int dimension() {
@@ -72,6 +82,7 @@ public class Board {
         for (int i = 0; i < n; i++)
             System.out.println(Arrays.toString(blocks[i]));
         Board example = new Board(blocks);
-        System.out.println(example.dimension());
+        // System.out.println(example.dimension());
+        System.out.println(example.toString());
     }
 }

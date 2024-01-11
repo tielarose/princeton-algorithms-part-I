@@ -12,6 +12,19 @@ public class Board {
     private int n;
     private int[][] currBoard;
 
+    // col of a tile in the correct place
+    private int col(int tile) {
+        if (tile % n == 0)
+            return n;
+        return tile % n;
+    }
+
+    // row of a tile in the correct place
+    private int row(int tile) {
+        return (int) Math.ceil((double) tile / (double) n);
+    }
+
+
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
@@ -67,9 +80,40 @@ public class Board {
         return hamming;
     }
 
-    // // sum of Manhattan distances between tiles and goal
-    // public int manhattan()
-    //
+    // sum of Manhattan distances between tiles and goal
+    public int manhattan() {
+        int manhattan = 0;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++) {
+                // if the tile is the empty space, continue
+                if (currBoard[i][j] == 0) continue;
+                // if the tile is in the correct place, continue;
+                int corrTile = (i * n) + (j + 1);
+                // if (corrTile == n * n) continue;
+                System.out.print("\n");
+                System.out.println("This tile should be " + corrTile);
+                if (currBoard[i][j] == corrTile) {
+                    System.out.println(currBoard[i][j] + " is in the right place!");
+                    continue;
+                }
+                ;
+
+                // otherwise, compare the location of the current tile to
+                // the correct location, add to manhattan value
+                System.out.println(currBoard[i][j] + " is in the wrong place");
+                int rowDiff = Math.abs(row(currBoard[i][j]) - (i + 1));
+                // System.out.println(col(currBoard[i][j]));
+                // System.out.println(j + 1);
+                int colDiff = Math.abs(col(currBoard[i][j]) - (j + 1));
+                // System.out.println("Row is off by " + rowDiff);
+                System.out.println("Col is off by " + colDiff);
+                manhattan += (rowDiff + colDiff);
+                System.out.println("manhattan is now " + manhattan);
+            }
+
+        return manhattan;
+    }
+
     // // is this board the goal board?
     // public boolean isGoal()
     //
@@ -98,6 +142,7 @@ public class Board {
         Board example = new Board(blocks);
         // System.out.println(example.dimension());
         // System.out.println(example.toString());
-        System.out.println(example.hamming());
+        // System.out.println(example.hamming());
+        System.out.println(example.manhattan());
     }
 }

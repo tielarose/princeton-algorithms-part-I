@@ -23,8 +23,12 @@ public class Board {
         if (tiles.length != tiles[0].length)
             throw new IllegalArgumentException("Board is not square.");
 
+        // set board dimension
         n = tiles.length;
+
+        // create the current board from the input tiles
         currBoard = new int[n][n];
+        int endVal = 1;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
                 currBoard[i][j] = tiles[i][j];
@@ -50,9 +54,19 @@ public class Board {
         return n;
     }
 
-    // // number of tiles out of place
-    // public int hamming()
-    //
+    // number of tiles out of place
+    public int hamming() {
+        int hamming = 0;
+        int ans = 1;
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++) {
+                if (currBoard[i][j] == 0) continue;
+                if (currBoard[i][j] != ans) hamming++;
+                ans++;
+            }
+        return hamming;
+    }
+
     // // sum of Manhattan distances between tiles and goal
     // public int manhattan()
     //
@@ -72,10 +86,10 @@ public class Board {
     public static void main(String[] args) {
         In in = new In(args[0]);
         int n = in.readInt();
-        System.out.println(n);
+        // System.out.println(n);
         int[][] blocks = new int[n][n];
-        for (int i = 0; i < n; i++)
-            System.out.println(Arrays.toString(blocks[i]));
+        // for (int i = 0; i < n; i++)
+        //     System.out.println(Arrays.toString(blocks[i]));
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++)
                 blocks[i][j] = in.readInt();
@@ -83,6 +97,7 @@ public class Board {
             System.out.println(Arrays.toString(blocks[i]));
         Board example = new Board(blocks);
         // System.out.println(example.dimension());
-        System.out.println(example.toString());
+        // System.out.println(example.toString());
+        System.out.println(example.hamming());
     }
 }

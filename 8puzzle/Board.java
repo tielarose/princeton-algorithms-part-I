@@ -87,28 +87,16 @@ public class Board {
             for (int j = 0; j < n; j++) {
                 // if the tile is the empty space, continue
                 if (currBoard[i][j] == 0) continue;
+
                 // if the tile is in the correct place, continue;
                 int corrTile = (i * n) + (j + 1);
-                // if (corrTile == n * n) continue;
-                System.out.print("\n");
-                System.out.println("This tile should be " + corrTile);
-                if (currBoard[i][j] == corrTile) {
-                    System.out.println(currBoard[i][j] + " is in the right place!");
-                    continue;
-                }
-                ;
+                if (currBoard[i][j] == corrTile) continue;
 
                 // otherwise, compare the location of the current tile to
                 // the correct location, add to manhattan value
-                System.out.println(currBoard[i][j] + " is in the wrong place");
                 int rowDiff = Math.abs(row(currBoard[i][j]) - (i + 1));
-                // System.out.println(col(currBoard[i][j]));
-                // System.out.println(j + 1);
                 int colDiff = Math.abs(col(currBoard[i][j]) - (j + 1));
-                // System.out.println("Row is off by " + rowDiff);
-                System.out.println("Col is off by " + colDiff);
                 manhattan += (rowDiff + colDiff);
-                System.out.println("manhattan is now " + manhattan);
             }
 
         return manhattan;

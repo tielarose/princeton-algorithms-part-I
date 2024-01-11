@@ -102,12 +102,22 @@ public class Board {
         return manhattan;
     }
 
-    // // is this board the goal board?
-    // public boolean isGoal()
-    //
-    // // does this board equal y?
-    // public boolean equals(Object y)
-    //
+    // is this board the goal board?
+    public boolean isGoal() {
+        return this.hamming() == 0;
+    }
+
+    // does this board equal y?
+    public boolean equals(Object y) {
+        if (y == this) return true;
+        if (y == null) return false;
+        if (y.getClass() != this.getClass()) return false;
+        Board boardY = (Board) y;
+        for (int i = 0; i < n; i++)
+            if (!Arrays.equals(this.currBoard[i], boardY.currBoard[i])) return false;
+        return true;
+    }
+
     // // all neighboring boards
     // public Iterable<Board> neighbors()
     //
@@ -131,6 +141,9 @@ public class Board {
         // System.out.println(example.dimension());
         // System.out.println(example.toString());
         // System.out.println(example.hamming());
-        System.out.println(example.manhattan());
+        // System.out.println(example.manhattan());
+        Board example2 = new Board(blocks);
+        example2.currBoard[0][0] = 9;
+        System.out.println(example.equals(example2));
     }
 }

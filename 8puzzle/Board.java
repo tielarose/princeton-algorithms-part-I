@@ -5,11 +5,13 @@
  **************************************************************************** */
 
 import edu.princeton.cs.algs4.In;
+import edu.princeton.cs.algs4.Stack;
 
 import java.util.Arrays;
 
 public class Board {
     private int n;
+    private int[] blankPos = new int[2];
     private int[][] currBoard;
 
     // col of a tile in the correct place
@@ -41,10 +43,15 @@ public class Board {
 
         // create the current board from the input tiles
         currBoard = new int[n][n];
-        int endVal = 1;
         for (int i = 0; i < n; i++)
-            for (int j = 0; j < n; j++)
+            for (int j = 0; j < n; j++) {
                 currBoard[i][j] = tiles[i][j];
+                if (tiles[i][j] == 0) {
+                    blankPos[0] = i;
+                    blankPos[1] = j;
+                }
+
+            }
     }
 
     // string representation of this board
@@ -110,7 +117,9 @@ public class Board {
     // does this board equal y?
     public boolean equals(Object y) {
         if (y == this) return true;
+        System.out.println("line 113");
         if (y == null) return false;
+        System.out.println("line 115");
         if (y.getClass() != this.getClass()) return false;
         Board boardY = (Board) y;
         for (int i = 0; i < n; i++)
@@ -118,11 +127,75 @@ public class Board {
         return true;
     }
 
-    // // all neighboring boards
-    // public Iterable<Board> neighbors()
-    //
+    // all neighboring boards
+    public Iterable<Board> neighbors() {
+        Stack<Board> stackNeighbors = new Stack<Board>();
+        int row = blankPos[0];
+        int col = blankPos[1];
+
+        // can we switch up?
+        if (row != 0) {
+            int[][] neighbor = copy(currBoard);
+            int temp = currBoard[row - 1][col];
+            neighbor[row - 1][col] = 0;
+            neighbor[row][col] = temp;
+            Board neighborBoard = new Board(neighbor);
+            stackNeighbors.push(neighborBoard);
+        }
+
+        // can we switch down?
+        if (row != n - 1) {
+            int[][] neighbor = copy(currBoard);
+            int temp = currBoard[row + 1][col];
+            neighbor[row + 1][col] = 0;
+            neighbor[row][col] = temp;
+            Board neighborBoard = new Board(neighbor);
+            stackNeighbors.push(neighborBoard);
+        }
+
+        // can we switch right?
+        if (col != n - 1) {
+            int[][] neighbor = copy(currBoard);
+            int temp = currBoard[row][col + 1];
+            neighbor[row][col + 1] = 0;
+            neighbor[row][col] = temp;
+            Board neighborBoard = new Board(neighbor);
+            stackNeighbors.push(neighborBoard);
+        }
+
+        // can we switch left?
+        if (col != 0) {
+            int[][] neighbor = copy(currBoard);
+            int temp = currBoard[row][col - 1];
+            neighbor[row][col - 1] = 0;
+            neighbor[row][col] = temp;
+            Board neighborBoard = new Board(neighbor);
+            stackNeighbors.push(neighborBoard);
+        }
+
+        for (Board neighbor : stackNeighbors) {
+            System.out.println("******************");
+            System.out.println(neighbor.toString());
+            System.out.println("                  ");
+        }
+        return stackNeighbors;
+    }
+
     // // a board that is obtained by exchanging any pair of tiles
     // public Board twin()
+
+    // *********************
+    // helper functions
+    // *********************
+
+    public int[][] copy(int[][] refBoard) {
+        int size = refBoard[0].length;
+        int[][] copied = new int[size][size];
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
+                copied[i][j] = refBoard[i][j];
+        return copied;
+    }
 
     // unit testing (not graded)
     public static void main(String[] args) {
@@ -142,8 +215,9 @@ public class Board {
         // System.out.println(example.toString());
         // System.out.println(example.hamming());
         // System.out.println(example.manhattan());
-        Board example2 = new Board(blocks);
-        example2.currBoard[0][0] = 9;
-        System.out.println(example.equals(example2));
+        // Board example2 = new Board(blocks);
+        // example2.currBoard[0][0] = 9;
+        // System.out.println(example.equals(example2));
+        example.neighbors();
     }
 }

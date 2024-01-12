@@ -131,13 +131,6 @@ public class Board {
         int row = blankPos[0];
         int col = blankPos[1];
 
-        // test copy
-        if (row != 0) {
-            int[][] neighbor = copy(currBoard);
-            Board neighborBoard = new Board(neighbor);
-            stackNeighbors.push(neighborBoard);
-        }
-
         // can we switch up?
         if (row != 0) {
             int[][] neighbor = copy(currBoard);
@@ -178,11 +171,6 @@ public class Board {
             stackNeighbors.push(neighborBoard);
         }
 
-        // for (Board neighbor : stackNeighbors) {
-        //     System.out.println("******************");
-        //     System.out.println(neighbor.toString());
-        //     System.out.println("                  ");
-        // }
         return stackNeighbors;
     }
 
@@ -223,13 +211,14 @@ public class Board {
         // Board example2 = new Board(blocks);
         // example2.currBoard[0][0] = 9;
         // System.out.println(example.equals(example2));
-        Iterable<Board> neighbors = example.neighbors();
-        for (Board neighbor : neighbors) {
-            System.out.println("******************");
-            System.out.println(neighbor.toString());
-            System.out.println(neighbor.equals(example));
-            System.out.println(example.equals(neighbor));
-            System.out.println("                  ");
-        }
+        //
+        // Iterable<Board> neighbors = example.neighbors();
+        // for (Board neighbor : neighbors) {
+        //     System.out.println("******************");
+        //     System.out.println(neighbor.toString());
+        //     System.out.println(neighbor.equals(example));
+        //     System.out.println(example.equals(neighbor));
+        //     System.out.println("                  ");
+        // }
     }
 }

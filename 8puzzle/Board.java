@@ -117,9 +117,7 @@ public class Board {
     // does this board equal y?
     public boolean equals(Object y) {
         if (y == this) return true;
-        System.out.println("line 113");
         if (y == null) return false;
-        System.out.println("line 115");
         if (y.getClass() != this.getClass()) return false;
         Board boardY = (Board) y;
         for (int i = 0; i < n; i++)
@@ -132,6 +130,13 @@ public class Board {
         Stack<Board> stackNeighbors = new Stack<Board>();
         int row = blankPos[0];
         int col = blankPos[1];
+
+        // test copy
+        if (row != 0) {
+            int[][] neighbor = copy(currBoard);
+            Board neighborBoard = new Board(neighbor);
+            stackNeighbors.push(neighborBoard);
+        }
 
         // can we switch up?
         if (row != 0) {
@@ -173,11 +178,11 @@ public class Board {
             stackNeighbors.push(neighborBoard);
         }
 
-        for (Board neighbor : stackNeighbors) {
-            System.out.println("******************");
-            System.out.println(neighbor.toString());
-            System.out.println("                  ");
-        }
+        // for (Board neighbor : stackNeighbors) {
+        //     System.out.println("******************");
+        //     System.out.println(neighbor.toString());
+        //     System.out.println("                  ");
+        // }
         return stackNeighbors;
     }
 
@@ -218,6 +223,13 @@ public class Board {
         // Board example2 = new Board(blocks);
         // example2.currBoard[0][0] = 9;
         // System.out.println(example.equals(example2));
-        example.neighbors();
+        Iterable<Board> neighbors = example.neighbors();
+        for (Board neighbor : neighbors) {
+            System.out.println("******************");
+            System.out.println(neighbor.toString());
+            System.out.println(neighbor.equals(example));
+            System.out.println(example.equals(neighbor));
+            System.out.println("                  ");
+        }
     }
 }

@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
 
@@ -174,8 +175,45 @@ public class Board {
         return stackNeighbors;
     }
 
-    // // a board that is obtained by exchanging any pair of tiles
-    // public Board twin()
+    // a board that is obtained by exchanging any pair of tiles
+    // the FAQ says two tiles "in the same row," and that only one twin is needed
+    public Board twin() {
+        int[][] twin = copy(currBoard);
+        // swap the two
+        int col = StdRandom.uniform(n);
+        int row = StdRandom.uniform(n);
+        if (row != blankPos[0] || col != blankPos[1]) {
+            // try swapping left
+            if (col - 1 >= 0 && twin[row][col - 1] != 0) {
+                int temp = twin[row][col];
+                twin[row][col] = twin[row][col - 1];
+                twin[row][col - 1] = temp;
+            }
+            // otherwise try swapping right
+            else if (col + 1 < n && twin[row][col + 1] != 0) {
+                int temp = twin[row][col];
+                twin[row][col] = twin[row][col + 1];
+                twin[row][col + 1] = temp;
+            }
+
+            // otherwise try swapping up
+            else if (row - 1 >= 0 && twin[row - 1][col] != 0) {
+                int temp = twin[row][col];
+                twin[row][col] = twin[row - 1][col];
+                twin[row - 1][col] = temp;
+            }
+
+            // otherwise try swapping down
+            else if (row + 1 < n && twin[row + 1][col] != 0) {
+                int temp = twin[row][col];
+                twin[row][col] = twin[row + 1][col];
+                twin[row + 1][col] = temp;
+            }
+
+        }
+        Board twinBoard = new Board(twin);
+        return twinBoard;
+    }
 
     // *********************
     // helper functions

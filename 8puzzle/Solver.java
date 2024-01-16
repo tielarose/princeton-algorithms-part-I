@@ -6,6 +6,7 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.MinPQ;
+import edu.princeton.cs.algs4.Stack;
 import edu.princeton.cs.algs4.StdOut;
 
 public class Solver {
@@ -47,22 +48,23 @@ public class Solver {
 
         pq.insert(new SearchNode(initialBoard, 0, null));
         twinPQ.insert(new SearchNode(initialBoard.twin(), 0, null));
-        while (!pq.min().board.isGoal() && !twinPQ.min().board.isGoal())
+        while (!pq.min().board.isGoal() && !twinPQ.min().board.isGoal()) {
             minNode = pq.min();
-        twinMinNode = twinPQ.min();
-        pq.delMin();
-        twinPQ.delMin();
-        for (Board neighbor : minNode.board.neighbors())
-            if (minNode.moves == 0)
-                pq.insert(new SearchNode(neighbor, minNode.moves + 1, minNode));
-            else if (!neighbor.equals(minNode.prevNode.board))
-                pq.insert(new SearchNode(neighbor, minNode.moves + 1, minNode));
+            twinMinNode = twinPQ.min();
+            pq.delMin();
+            twinPQ.delMin();
+            for (Board neighbor : minNode.board.neighbors())
+                if (minNode.moves == 0)
+                    pq.insert(new SearchNode(neighbor, minNode.moves + 1, minNode));
+                else if (!neighbor.equals(minNode.prevNode.board))
+                    pq.insert(new SearchNode(neighbor, minNode.moves + 1, minNode));
 
-        for (Board neighbor : twinMinNode.board.neighbors())
-            if (twinMinNode.moves == 0)
-                pq.insert(new SearchNode(neighbor, twinMinNode.moves + 1, twinMinNode));
-            else if (!neighbor.equals(twinMinNode.prevNode.board))
-                pq.insert(new SearchNode(neighbor, twinMinNode.moves + 1, twinMinNode));
+            for (Board neighbor : twinMinNode.board.neighbors())
+                if (twinMinNode.moves == 0)
+                    pq.insert(new SearchNode(neighbor, twinMinNode.moves + 1, twinMinNode));
+                else if (!neighbor.equals(twinMinNode.prevNode.board))
+                    pq.insert(new SearchNode(neighbor, twinMinNode.moves + 1, twinMinNode));
+        }
     }
 
     // is the initial board solvable? (see below)
@@ -79,9 +81,17 @@ public class Solver {
     }
 
     // sequence of boards in a shortest solution; null if unsolvable
-    // public Iterable<Board> solution() {
-    //     if (!isSolvable()) return null;
-    // }
+    public Iterable<Board> solution() {
+        if (!isSolvable()) return null;
+        Stack<Board> solutionStack = new Stack<Board>();
+        SearchNode current = pq.min();
+        while (current.prevNode != null) {
+            solutionStack.push(current.board);
+            current = current.prevNode;
+        }
+        solutionStack.push(initialBoard);
+        return solutionStack;
+    }
 
     // test client (see below)
     public static void main(String[] args) {

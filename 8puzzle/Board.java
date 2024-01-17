@@ -15,19 +15,6 @@ public class Board {
     private int[] blankPos = new int[2];
     private int[][] currBoard;
 
-    // col of a tile in the correct place
-    private int col(int tile) {
-        if (tile % n == 0)
-            return n;
-        return tile % n;
-    }
-
-    // row of a tile in the correct place
-    private int row(int tile) {
-        return (int) Math.ceil((double) tile / (double) n);
-    }
-
-
     // create a board from an n-by-n array of tiles,
     // where tiles[row][col] = tile at (row, col)
     public Board(int[][] tiles) {
@@ -81,7 +68,10 @@ public class Board {
         int ans = 1;
         for (int i = 0; i < n; i++)
             for (int j = 0; j < n; j++) {
-                if (currBoard[i][j] == 0) continue;
+                if (currBoard[i][j] == 0) {
+                    ans++;
+                    continue;
+                }
                 if (currBoard[i][j] != ans) hamming++;
                 ans++;
             }
@@ -180,8 +170,8 @@ public class Board {
     public Board twin() {
         int[][] twin = copy(currBoard);
         // swap the two
-        int col = StdRandom.uniform(n);
-        int row = StdRandom.uniform(n);
+        int col = StdRandom.uniformInt(n);
+        int row = StdRandom.uniformInt(n);
         if (row != blankPos[0] || col != blankPos[1]) {
             // try swapping left
             if (col - 1 >= 0 && twin[row][col - 1] != 0) {
@@ -219,7 +209,19 @@ public class Board {
     // helper functions
     // *********************
 
-    public int[][] copy(int[][] refBoard) {
+    // col of a tile in the correct place
+    private int col(int tile) {
+        if (tile % n == 0)
+            return n;
+        return tile % n;
+    }
+
+    // row of a tile in the correct place
+    private int row(int tile) {
+        return (int) Math.ceil((double) tile / (double) n);
+    }
+
+    private int[][] copy(int[][] refBoard) {
         int size = refBoard[0].length;
         int[][] copied = new int[size][size];
         for (int i = 0; i < n; i++)
@@ -244,7 +246,7 @@ public class Board {
         Board example = new Board(blocks);
         // System.out.println(example.dimension());
         // System.out.println(example.toString());
-        // System.out.println(example.hamming());
+        System.out.println(example.hamming());
         // System.out.println(example.manhattan());
         // Board example2 = new Board(blocks);
         // example2.currBoard[0][0] = 9;

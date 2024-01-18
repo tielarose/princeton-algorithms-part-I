@@ -6,7 +6,6 @@
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Stack;
-import edu.princeton.cs.algs4.StdRandom;
 
 import java.util.Arrays;
 
@@ -170,37 +169,44 @@ public class Board {
     public Board twin() {
         int[][] twin = copy(currBoard);
         // swap the two
-        int col = StdRandom.uniformInt(n);
-        int row = StdRandom.uniformInt(n);
-        if (row != blankPos[0] || col != blankPos[1]) {
-            // try swapping left
-            if (col - 1 >= 0 && twin[row][col - 1] != 0) {
-                int temp = twin[row][col];
-                twin[row][col] = twin[row][col - 1];
-                twin[row][col - 1] = temp;
-            }
-            // otherwise try swapping right
-            else if (col + 1 < n && twin[row][col + 1] != 0) {
-                int temp = twin[row][col];
-                twin[row][col] = twin[row][col + 1];
-                twin[row][col + 1] = temp;
-            }
+        int col = 0;
+        int row = 0;
 
-            // otherwise try swapping up
-            else if (row - 1 >= 0 && twin[row - 1][col] != 0) {
-                int temp = twin[row][col];
-                twin[row][col] = twin[row - 1][col];
-                twin[row - 1][col] = temp;
-            }
-
-            // otherwise try swapping down
-            else if (row + 1 < n && twin[row + 1][col] != 0) {
-                int temp = twin[row][col];
-                twin[row][col] = twin[row + 1][col];
-                twin[row + 1][col] = temp;
-            }
-
+        while (row == blankPos[0]) {
+            row++;
         }
+
+        while (col == blankPos[1]) {
+            col++;
+        }
+
+        // try swapping left
+        if (col - 1 >= 0 && twin[row][col - 1] != 0) {
+            int temp = twin[row][col];
+            twin[row][col] = twin[row][col - 1];
+            twin[row][col - 1] = temp;
+        }
+        // otherwise try swapping right
+        else if (col + 1 < n && twin[row][col + 1] != 0) {
+            int temp = twin[row][col];
+            twin[row][col] = twin[row][col + 1];
+            twin[row][col + 1] = temp;
+        }
+
+        // otherwise try swapping up
+        else if (row - 1 >= 0 && twin[row - 1][col] != 0) {
+            int temp = twin[row][col];
+            twin[row][col] = twin[row - 1][col];
+            twin[row - 1][col] = temp;
+        }
+
+        // otherwise try swapping down
+        else if (row + 1 < n && twin[row + 1][col] != 0) {
+            int temp = twin[row][col];
+            twin[row][col] = twin[row + 1][col];
+            twin[row + 1][col] = temp;
+        }
+
         Board twinBoard = new Board(twin);
         return twinBoard;
     }
@@ -244,9 +250,13 @@ public class Board {
         for (int i = 0; i < n; i++)
             System.out.println(Arrays.toString(blocks[i]));
         Board example = new Board(blocks);
+        Board twin = example.twin();
+        System.out.println(twin.toString());
+        Board twin2 = example.twin();
+        System.out.println(twin2.toString());
         // System.out.println(example.dimension());
         // System.out.println(example.toString());
-        System.out.println(example.hamming());
+        // System.out.println(example.hamming());
         // System.out.println(example.manhattan());
         // Board example2 = new Board(blocks);
         // example2.currBoard[0][0] = 9;

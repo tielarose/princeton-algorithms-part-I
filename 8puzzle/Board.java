@@ -46,7 +46,7 @@ public class Board {
         int col = 0;
         for (int i = 0; i < board.length; i++) {
             if (col < n - 1) {
-                s.append(board[i] + "");
+                s.append(board[i] + " ");
                 col++;
             }
             else if (col == n - 1) {
@@ -73,13 +73,11 @@ public class Board {
     // number of tiles out of place
     public int hamming() {
         int hamming = 0;
-        int ans = 1;
         for (int i = 0; i < board.length; i++) {
             if (board[i] == 0) {
-                ans++;
                 continue;
             }
-            if (board[i] != ans) hamming++;
+            if (board[i] != i + 1) hamming++;
         }
         // for (int i = 0; i < n; i++)
         //     for (int j = 0; j < n; j++) {
@@ -342,13 +340,13 @@ public class Board {
         for (int i = 0; i < n; i++)
             System.out.println(Arrays.toString(blocks[i]));
         Board example = new Board(blocks);
-        Board twin = example.twin();
-        System.out.println(twin.toString());
-        Board twin2 = example.twin();
-        System.out.println(twin2.toString());
+        // Board twin = example.twin();
+        // System.out.println(twin.toString());
+        // Board twin2 = example.twin();
+        // System.out.println(twin2.toString());
         // System.out.println(example.dimension());
-        // System.out.println(example.toString());
-        // System.out.println(example.hamming());
+        System.out.println(example.toString());
+        System.out.println("hamming is " + example.hamming());
         // System.out.println(example.manhattan());
         // Board example2 = new Board(blocks);
         // example2.currBoard[0][0] = 9;

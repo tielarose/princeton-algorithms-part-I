@@ -167,7 +167,7 @@ public class Board {
         }
 
         // can we switch down?
-        if (row != n - 1) {
+        if (row != n) {
             int[] neighbor = board.clone();
             int temp = board[blankInd + n];
             neighbor[blankInd + n] = 0;
@@ -345,20 +345,20 @@ public class Board {
         // Board twin2 = example.twin();
         // System.out.println(twin2.toString());
         // System.out.println(example.dimension());
-        System.out.println(example.toString());
-        System.out.println("hamming is " + example.hamming());
+        // System.out.println(example.toString());
+        // System.out.println("hamming is " + example.hamming());
         // System.out.println(example.manhattan());
         // Board example2 = new Board(blocks);
         // example2.currBoard[0][0] = 9;
         // System.out.println(example.equals(example2));
         //
-        // Iterable<Board> neighbors = example.neighbors();
-        // for (Board neighbor : neighbors) {
-        //     System.out.println("******************");
-        //     System.out.println(neighbor.toString());
-        //     System.out.println(neighbor.equals(example));
-        //     System.out.println(example.equals(neighbor));
-        //     System.out.println("                  ");
-        // }
+        Iterable<Board> neighbors = example.neighbors();
+        for (Board neighbor : neighbors) {
+            System.out.println("******************");
+            System.out.println(neighbor.toString());
+            // System.out.println(neighbor.equals(example));
+            // System.out.println(example.equals(neighbor));
+            System.out.println("                  ");
+        }
     }
 }

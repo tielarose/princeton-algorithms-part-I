@@ -234,7 +234,7 @@ public class Board {
         // }
 
         // try swapping left
-        if (twin[swapInd - 1] != 0) {
+        if (swapInd != 0 && twin[swapInd - 1] != 0) {
             int temp = twin[swapInd - 1];
             twin[swapInd - 1] = twin[swapInd];
             twin[swapInd] = temp;
@@ -247,7 +247,7 @@ public class Board {
         // }
 
         // otherwise try swapping right
-        else if (twin[swapInd + 1] != 0) {
+        else if (swapInd + 1 < twin.length && twin[swapInd + 1] != 0) {
             int temp = twin[swapInd + 1];
             twin[swapInd + 1] = twin[swapInd];
             twin[swapInd] = temp;
@@ -259,7 +259,7 @@ public class Board {
         // }
 
         // otherwise try swapping up
-        else if (twin[swapInd - n] != 0) {
+        else if (swapInd - n >= 0 && twin[swapInd - n] != 0) {
             int temp = twin[swapInd - n];
             twin[swapInd - n] = twin[swapInd];
             twin[swapInd] = temp;
@@ -271,7 +271,7 @@ public class Board {
         // }
 
         // otherwise try swapping down
-        else if (twin[swapInd + n] != 0) {
+        else if (swapInd + n < twin.length && twin[swapInd + n] != 0) {
             int temp = twin[swapInd + n];
             twin[swapInd + n] = twin[swapInd];
             twin[swapInd] = temp;
@@ -340,8 +340,8 @@ public class Board {
         for (int i = 0; i < n; i++)
             System.out.println(Arrays.toString(blocks[i]));
         Board example = new Board(blocks);
-        // Board twin = example.twin();
-        // System.out.println(twin.toString());
+        Board twin = example.twin();
+        System.out.println(twin.toString());
         // Board twin2 = example.twin();
         // System.out.println(twin2.toString());
         // System.out.println(example.dimension());
@@ -352,13 +352,13 @@ public class Board {
         // example2.currBoard[0][0] = 9;
         // System.out.println(example.equals(example2));
         //
-        Iterable<Board> neighbors = example.neighbors();
-        for (Board neighbor : neighbors) {
-            System.out.println("******************");
-            System.out.println(neighbor.toString());
-            // System.out.println(neighbor.equals(example));
-            // System.out.println(example.equals(neighbor));
-            System.out.println("                  ");
-        }
+        // Iterable<Board> neighbors = example.neighbors();
+        // for (Board neighbor : neighbors) {
+        //     System.out.println("******************");
+        //     System.out.println(neighbor.toString());
+        //     // System.out.println(neighbor.equals(example));
+        //     // System.out.println(example.equals(neighbor));
+        //     System.out.println("                  ");
+        // }
     }
 }

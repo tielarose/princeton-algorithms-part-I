@@ -1,4 +1,5 @@
 import edu.princeton.cs.algs4.Point2D;
+import edu.princeton.cs.algs4.StdDraw;
 
 import java.util.TreeSet;
 
@@ -32,8 +33,16 @@ public class PointSET {
 
     // draw all points to standard draw
     public void draw() {
+        StdDraw.clear();
+        StdDraw.setPenColor(StdDraw.DARK_GRAY);
+        StdDraw.setPenRadius(0.05);
+
+        for (Point2D point : pointSet) {
+            point.draw();
+        }
 
     }
+
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
@@ -46,5 +55,7 @@ public class PointSET {
     }
 
     // unit testing of the methods (optional)
-    public static void main(String[] args)
+    public static void main(String[] args) {
+
+    }
 }

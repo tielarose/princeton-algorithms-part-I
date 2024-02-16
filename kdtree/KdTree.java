@@ -1,6 +1,7 @@
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
 import edu.princeton.cs.algs4.Stack;
+import edu.princeton.cs.algs4.StdDraw;
 
 public class KdTree {
     private int size;
@@ -41,11 +42,15 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
-        root = insert(root, p, 0, XMIN, XMAX, YMIN, YMAX);
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+
+        root = insert(root, p, 0, XMIN, YMIN, XMAX, YMAX);
 
     }
 
-    private Node insert(Node rootNode, Point2D newPoint, int level, double xmin, double xmax, double ymin, double ymax) {
+    private Node insert(Node rootNode, Point2D newPoint, int level, double xmin, double ymin, double xmax, double ymax) {
         if (rootNode == null) {
             size++;
             return new Node(newPoint, new RectHV(xmin, ymin, xmax, ymax));
@@ -63,7 +68,7 @@ public class KdTree {
                 rootNode.left = insert(rootNode.left, newPoint, level + 1, xmin, ymin, xmax, rootNode.p.y());
             }
             
-        } else { // new node goes on the right
+        } else if (comparison > 0) { // new node goes on the right
             // even level, comparing via x-coordinate, curr x is new min
             if (level % 2 == 0) {
                 rootNode.right = insert(rootNode.right, newPoint, level + 1, rootNode.p.x(), ymin, xmax, ymax);
@@ -80,6 +85,10 @@ public class KdTree {
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+
         return contains(root, p, 0) != null;
     }
 
@@ -138,6 +147,10 @@ public class KdTree {
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
+        if (rect == null) {
+            throw new IllegalArgumentException();
+        }
+
         Stack<Point2D> stack = new Stack<Point2D>();
 
         range(root, rect, stack);
@@ -159,8 +172,12 @@ public class KdTree {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
+        if (p == null) {
+            throw new IllegalArgumentException();
+        }
+
         if (isEmpty()) return null;
-        else {
+        else { 
             Point2D ans = null;
             ans = nearest(root, p, ans);
 
@@ -173,24 +190,24 @@ public class KdTree {
             if (min == null) {
                 min = node.p;
             }
-        }
 
-        if (min.distanceSquaredTo(point) >= node.rect.distanceSquaredTo(point)) {
-            if (node.p.distanceSquaredTo(point) < min.distanceSquaredTo(point)) {
-                min = node.p;
-            }
+            if (min.distanceSquaredTo(point) >= node.rect.distanceSquaredTo(point)) {
+                if (node.p.distanceSquaredTo(point) < min.distanceSquaredTo(point)) {
+                    min = node.p;
+                }
 
-            if (node.right != null && node.right.rect.contains(point)) {
-                min = nearest(node.right, point, min);
-                min = nearest(node.left, point, min);
-            } else {
-                min = nearest(node.left, point, min);
-                min = nearest(node.right, point, min);
+                if (node.right != null && node.right.rect.contains(point)) {
+                    min = nearest(node.right, point, min);
+                    min = nearest(node.left, point, min);
+                } else {
+                    min = nearest(node.left, point, min);
+                    min = nearest(node.right, point, min);
+                }
             }
         }
             
         return min;
-        
+
         }
 
 

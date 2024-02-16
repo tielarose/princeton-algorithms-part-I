@@ -1,5 +1,6 @@
 import edu.princeton.cs.algs4.Point2D;
 import edu.princeton.cs.algs4.RectHV;
+import edu.princeton.cs.algs4.Stack;
 
 public class KdTree {
     private int size;
@@ -134,30 +135,26 @@ public class KdTree {
         }
     }
 
-    // private void drawLine(Node x, int level) {
-    //     if (x != null) {
-    //         drawLine(x.left, level + 1);
-
-    //         StdDraw.setPenRadius();
-    //         if (level % 2 == 0) {
-    //             StdDraw.setPenColor(StdDraw.RED);
-    //             StdDraw.line(x.p.x(), x.rect.ymin(), x.p.x(), x.rect.ymax());
-    //         } else {
-    //             StdDraw.setPenColor(StdDraw.BLUE);
-    //             StdDraw.line(x.rect.xmin(), x.p.y(), x.rect.xmax(), x.p.y());
-    //         }
-
-    //         StdDraw.setPenColor(StdDraw.BLACK);
-    //         StdDraw.setPenRadius(.01);
-    //         x.p.draw();
-
-    //         drawLine(x.right, level + 1);
-    //     }
-    // }
-
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {
+        Stack<Point2D> stack = new Stack<Point2D>();
+
+        range(root, rect, stack);
+
+        return stack;
+    }
+
+    private void range(Node node, RectHV rect, Stack<Point2D> stack) {
+        if (node != null && rect.intersects(node.rect)) {
+            if (rect.contains(node.p)) {
+                stack.push(node.p)
+            }
+
+            range(node.left, rect, stack);
+            range(node.right, rect, stack);
+
+        }
     }
 
     // a nearest neighbor in the set to point p; null if the set is empty

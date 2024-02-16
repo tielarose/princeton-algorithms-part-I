@@ -4,16 +4,22 @@ import edu.princeton.cs.algs4.RectHV;
 public class KdTree {
     private int size;
     private Node root;
+    private double XMIN = 0.0;
+    private double XMAX = 1.0;
+    private double YMIN = 0.0;
+    private double YMAX = 1.0;
 
     private class Node {
         private Point2D p;
         private Node left;
         private Node right;
+        private RectHV rect;
 
-        private Node(Point2D point) {
+        private Node(Point2D point, RectHV rectangle) {
             p = point;
             left = null;
             right = null;
+            rect = rectangle;
         }
     }
     
@@ -34,22 +40,38 @@ public class KdTree {
 
     // add the point to the set (if it is not already in the set)
     public void insert(Point2D p) {
-        root = insert(root, p, 0);
+        root = insert(root, p, 0, XMIN, XMAX, YMIN, YMAX);
 
     }
 
-    private Node insert(Node rootNode, Point2D newPoint, int level) {
+    private Node insert(Node rootNode, Point2D newPoint, int level, double xmin, double xmax, double ymin, double ymax) {
         if (rootNode == null) {
             size++;
-            return new Node(newPoint);
+            return new Node(newPoint, new RectHV(xmin, ymin, xmax, ymax));
         }
 
         int comparison = comparePoints(newPoint, rootNode.p, level);
 
-        if (comparison < 0) {
-            rootNode.left = insert(rootNode.left, newPoint, level + 1);
-        } else {
-            rootNode.right = insert(rootNode.right, newPoint, level + 1);
+        if (comparison < 0) { // new node goes on the left
+            // even level, comparing via x-coordinate, curr x is new max
+            if (level % 2 == 0) { 
+                rootNode.left = insert(rootNode.left, newPoint, level + 1, xmin, ymin, rootNode.p.x(), ymax);
+            } 
+            // odd level, comparing via y-coordinate, y val is new max
+            else { 
+                rootNode.left = insert(rootNode.left, newPoint, level + 1, xmin, ymin, xmax, rootNode.p.y());
+            }
+            
+        } else { // new node goes on the right
+            // even level, comparing via x-coordinate, curr x is new min
+            if (level % 2 == 0) {
+                rootNode.right = insert(rootNode.right, newPoint, level + 1, rootNode.p.x(), ymin, xmax, ymax);
+            }
+            // odd level, comparing via y-coordinate, y val is new min
+            else {
+                rootNode.right = insert(rootNode.right, newPoint, level + 1, xmin, rootNode.p.y(), xmax, ymax);
+            }
+            
         }
 
         return rootNode;
@@ -76,8 +98,63 @@ public class KdTree {
     }
 
     // draw all points to standard draw
-    public oid draw() {
+    public void draw() {
+        StdDraw.clear();
+
+        drawLine(root, 0);
     }
+
+    private void drawLine(Node node, int level) {
+        if (node != null) {
+            // draw the line/point of the left child
+            drawLine(node.left, level + 1);
+
+            // draw this line/point
+            StdDraw.setPenRadius();
+            // even levels --> vertical line, draw in red
+            // draw a line with this x from min y to max y of this node
+            if (level % 2 == 0) {
+                StdDraw.setPenColor(StdDraw.RED);
+                StdDraw.line(node.p.x(), node.rect.ymin(), node.p.x(), node.rect.ymax());
+            }
+            // odd levels --> horizontal line, draw in blue
+            // draw a line with this y from min x to max x of this node
+            else {
+                StdDraw.setPenColor(StdDraw.BLUE);
+                StdDraw.line(node.rect.xmin(), node.p.y(), node.rect.xmax(), node.p.y());
+            }
+
+            // draw the point
+            StdDraw.setPenColor(StdDraw.BLACK);
+            StdDraw.setPenRadius(0.05);
+            node.p.draw();
+
+            // draw the line/point of the right child
+            drawLine(node.right, level + 1);
+        }
+    }
+
+    // private void drawLine(Node x, int level) {
+    //     if (x != null) {
+    //         drawLine(x.left, level + 1);
+
+    //         StdDraw.setPenRadius();
+    //         if (level % 2 == 0) {
+    //             StdDraw.setPenColor(StdDraw.RED);
+    //             StdDraw.line(x.p.x(), x.rect.ymin(), x.p.x(), x.rect.ymax());
+    //         } else {
+    //             StdDraw.setPenColor(StdDraw.BLUE);
+    //             StdDraw.line(x.rect.xmin(), x.p.y(), x.rect.xmax(), x.p.y());
+    //         }
+
+    //         StdDraw.setPenColor(StdDraw.BLACK);
+    //         StdDraw.setPenRadius(.01);
+    //         x.p.draw();
+
+    //         drawLine(x.right, level + 1);
+    //     }
+    // }
+
 
     // all points that are inside the rectangle (or on the boundary)
     public Iterable<Point2D> range(RectHV rect) {

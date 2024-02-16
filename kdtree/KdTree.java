@@ -148,7 +148,7 @@ public class KdTree {
     private void range(Node node, RectHV rect, Stack<Point2D> stack) {
         if (node != null && rect.intersects(node.rect)) {
             if (rect.contains(node.p)) {
-                stack.push(node.p)
+                stack.push(node.p);
             }
 
             range(node.left, rect, stack);
@@ -159,7 +159,41 @@ public class KdTree {
 
     // a nearest neighbor in the set to point p; null if the set is empty
     public Point2D nearest(Point2D p) {
+        if (isEmpty()) return null;
+        else {
+            Point2D ans = null;
+            ans = nearest(root, p, ans);
+
+            return ans;
+        }
     }
+
+    private Point2D nearest(Node node, Point2D point, Point2D min) {
+        if (node != null) {
+            if (min == null) {
+                min = node.p;
+            }
+        }
+
+        if (min.distanceSquaredTo(point) >= node.rect.distanceSquaredTo(point)) {
+            if (node.p.distanceSquaredTo(point) < min.distanceSquaredTo(point)) {
+                min = node.p;
+            }
+
+            if (node.right != null && node.right.rect.contains(point)) {
+                min = nearest(node.right, point, min);
+                min = nearest(node.left, point, min);
+            } else {
+                min = nearest(node.left, point, min);
+                min = nearest(node.right, point, min);
+            }
+        }
+            
+        return min;
+        
+        }
+
+
 
     private int compare(double a, double b) {
         if (a > b)

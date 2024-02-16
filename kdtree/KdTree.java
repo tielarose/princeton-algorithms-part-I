@@ -57,6 +57,22 @@ public class KdTree {
 
     // does the set contain point p?
     public boolean contains(Point2D p) {
+        return contains(root, p, 0) != null;
+    }
+
+    private Point2D contains(Node rootNode, Point2D targetPoint, int level) {
+        if (rootNode == null)
+            return null;
+
+        int comparison = comparePoints(targetPoint, rootNode.p, level);
+
+        if (comparison == 0) {
+            return rootNode.p;
+        } else if (comparison < 0) {
+            return contains(rootNode.left, targetPoint, level + 1);
+        } else {
+             return contains(rootNode.right, targetPoint, level + 1);
+        }
     }
 
     // draw all points to standard draw
